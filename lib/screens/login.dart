@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wiredbrain/services/analytics.dart';
 import '../widgets/button.dart';
 import '../widgets/create_account.dart';
 import '../widgets/login_inputs.dart';
@@ -35,6 +36,8 @@ class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   final _emailFieldController = TextEditingController();
   final _passwordFieldController = TextEditingController();
+
+  final AnalyticsService _analyticsService = AnalyticsService();
 
   @override
   void initState() {
@@ -120,8 +123,11 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       widget.scaffoldKey.currentState.hideCurrentSnackBar();
-      print(loggedIn);
       if (loggedIn) {
+        _analyticsService.logLogin();
+
+        _analyticsService.setUserProperties(userId: email, userRole: 'customer');
+
         CoffeeRouter.instance.push(MenuScreen.route());
       } else {
         final snackBar = SnackBar(
