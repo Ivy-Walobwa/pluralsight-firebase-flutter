@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:wiredbrain/data_providers/http_client.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +19,8 @@ bool get isInDebugMode {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
 
   // Flutter >= 1.17 and Dart >= 2.8
   runZonedGuarded<Future<void>>(() async {

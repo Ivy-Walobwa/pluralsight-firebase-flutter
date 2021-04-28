@@ -5,6 +5,7 @@ import './const.dart';
 
 ThemeData getTheme() {
   return ThemeData(
+
     textTheme: TextTheme(
       headline1: TextStyle(
         color: darkBrown,
