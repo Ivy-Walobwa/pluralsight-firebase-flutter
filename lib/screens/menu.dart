@@ -1,9 +1,11 @@
+import 'package:firebase_analytics/observer.dart';
 import 'package:flutter/material.dart';
 import 'package:wiredbrain/screens/shops.dart';
 
 import '../screens/logout.dart';
 import '../const.dart';
 import './menu_list.dart';
+import '../services/analytics.dart';
 
 class MenuScreen extends StatefulWidget {
   static String routeName = 'menuScreen';
@@ -28,10 +30,18 @@ class _MenuScreenState extends State<MenuScreen> {
     LogoutScreen(),
   ];
 
+  final FirebaseAnalyticsObserver observer = AnalyticsService.observer;
+
+  void _sendCurrentTabToAnalytics(){
+    final String screenName = '${MenuScreen.routeName}/tab$_selectedIndex';
+    observer.analytics.setCurrentScreen(screenName: screenName);
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
     });
+    _sendCurrentTabToAnalytics();
   }
 
   @override

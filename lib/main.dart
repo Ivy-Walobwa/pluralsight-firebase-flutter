@@ -2,14 +2,9 @@ import 'dart:async';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
-import 'package:wiredbrain/data_providers/http_client.dart';
 import 'package:flutter/material.dart';
 
-import 'coffee_router.dart';
-import 'data_providers/auth_data_provider.dart';
-import 'data_providers/auth_provider.dart';
-import './get_theme.dart';
-import 'screens/splash_screen.dart';
+import 'coffee_app.dart';
 
 bool get isInDebugMode {
   bool inDebugMode = false;
@@ -26,18 +21,7 @@ Future<void> main() async {
   runZonedGuarded<Future<void>>(() async {
     await SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 
-    runApp(
-      AuthProvider(
-        auth: AuthDataProvider(http: HttpClient()),
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          themeMode: ThemeMode.system,
-          home: const SplashScreen(),
-          navigatorKey: CoffeeRouter.instance.navigatorKey,
-          theme: getTheme(),
-        ),
-      ),
-    );
+    runApp(CoffeeApp());
   }, (error, stackTrace) async {
     print('Caught Dart Error!');
     if (isInDebugMode) {
